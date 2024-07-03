@@ -1,6 +1,8 @@
+"use client"
 import { Button } from '@/components/ui/button'
 import { Briefcase, Calendar, Clock, Plus, Settings } from 'lucide-react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import React from 'react'
 
 function SideNavBar() {
@@ -32,6 +34,12 @@ function SideNavBar() {
         }
     ]
 
+    const path=usePathname() //this is for making a particular link as active (gives active pathname: /dashboard/meeting-type)
+    const [activePath,setActivePath]=useState(path)
+
+    useEffect(()=>{
+            console.log(activePath)
+    },[])
 
 
   return (
@@ -49,10 +57,10 @@ function SideNavBar() {
             <div className="flex flex-col mt-5 gap-5">
                 {menu.map((item,index)=>{
 
-                    <Link href={item.path}>
+                    <Link href={item.path} key={index}> 
 
                         <Button key={index} 
-                        variant="ghost" className="w-full flex gap-2 justify-start hover:bg-blue-100">
+                        variant="ghost" className={`w-full flex gap-2 justify-start hover:bg-blue-100 ${activePath==item.path&&'text-primary bg-blue-100'}`}>
 
                            <item.icon/> {item.name}
                         </Button>
