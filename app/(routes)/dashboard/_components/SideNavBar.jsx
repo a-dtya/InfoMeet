@@ -39,7 +39,8 @@ function SideNavBar() {
 
     useEffect(()=>{
             console.log(activePath)
-    },[])
+            path&&setActivePath(path)
+    },[path])
 
 
   return (

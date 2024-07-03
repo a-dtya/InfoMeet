@@ -5,6 +5,7 @@ import { LogoutLink, useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
 import React from 'react'
 import { useEffect } from 'react/cjs/react.production.min'
 import { useRouter } from 'next/navigation'
+import MeetingType from './meeting-type/page'
 
 function Dashboard() {
 
@@ -32,7 +33,7 @@ function Dashboard() {
     return <h2>Loading...</h2>
   }
   return (
-    <div>  Dashboard <LogoutLink>Logout</LogoutLink></div>
+    <div>  <MeetingType/></div>
   )
 }
 
