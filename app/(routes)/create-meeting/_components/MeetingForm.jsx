@@ -2,7 +2,7 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { ChevronLeft } from 'lucide-react'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,11 +14,23 @@ import {
 import LocationOptions from '@/app/_utils/LocationOptions'
 import Link from 'next/link'
 
-function MeetingForm() {
+function MeetingForm({setFormValue}) {
   const [location,setLocation]=useState()
   const [eventName,setEventName]=useState('')
   const [duration,setDuration]=useState(30)
   const [locationUrl,setLocationUrl]=useState("")
+
+
+
+  useEffect(()=>{
+    setFormValue({
+      eventName:eventName,
+      duration:duration,
+      location:location,
+      locationUrl:locationUrl
+    })
+  },[eventName,duration,location,locationUrl])
+
   return (
     <div className="p-8">
       <Link href={"/dashboard"}><h2 className="flex gap-2"><ChevronLeft/>Cancel</h2></Link>
