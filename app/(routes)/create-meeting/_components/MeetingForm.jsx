@@ -13,8 +13,20 @@ import {
 } from "@/components/ui/dropdown-menu"
 import LocationOptions from '@/app/_utils/LocationOptions'
 import Link from 'next/link'
+import { doc, getFirestore, setDoc } from 'firebase/firestore'
+import { app } from '@/config/FirebaseConfig'
+import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
+import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
 
 function MeetingForm({setFormValue}) {
+
+
+  const db=getFirestore(app)
+  const {user}=useKindeBrowserClient()
+
+  const router = useRouter()
+
   const [location,setLocation]=useState()
   const [eventName,setEventName]=useState('')
   const [duration,setDuration]=useState(30)
@@ -30,6 +42,23 @@ function MeetingForm({setFormValue}) {
       locationUrl:locationUrl
     })
   },[eventName,duration,location,locationUrl])
+
+
+
+  const onCreateClick = async()=>{
+    const id = Date.now().toString()
+    await setDoc(doc(db,"MeetingEvent",id),{
+      id:id,
+      eventName:eventName,
+      duration:duration,
+      location:location,
+      locationUrl:locationUrl,
+      businessId:doc(db,"Business",user?.email)
+    }).then((res)=>{
+      toast('New Meeting Successfully Created')
+      router.replace('/dashboard/meeting-type')
+    })
+  }
 
   return (
     <div className="p-8">
@@ -74,7 +103,11 @@ function MeetingForm({setFormValue}) {
         </>}
 
       </div>
-      <Button disabled={!(eventName||location||locationUrl||duration)}  className="w-full mt-9">Create</Button>
+      <Button disabled={!(eventName||location||locationUrl||duration)}  
+      className="w-full mt-9"
+      onClick={()=>onCreateClick()}
+      >Create
+      </Button>
     </div>
   )
 }

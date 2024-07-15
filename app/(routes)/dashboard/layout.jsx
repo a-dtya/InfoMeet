@@ -1,6 +1,7 @@
 import React from 'react'
 import SideNavBar from './_components/SideNavBar'
 import DashBoardHeader from './_components/DashBoardHeader'
+import { Toaster } from "@/components/ui/sonner";
 //this is used to fix a layout for a specific route
 function DashboardLayout({children}) {// whatever comes within dashboard layout will be rendered in this
   return (
@@ -10,6 +11,7 @@ function DashboardLayout({children}) {// whatever comes within dashboard layout 
         </div>
         <div className="md:ml-64">
             <DashBoardHeader/>
+            <Toaster/>
             {children}
         </div>
     </div>
